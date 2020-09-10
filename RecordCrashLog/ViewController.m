@@ -7,7 +7,6 @@
 //
 
 #import "ViewController.h"
-#import "WBAsync2Sync.h"
 
 typedef struct Test {
     int a;
@@ -18,93 +17,13 @@ typedef struct Test {
 
 @end
 
-wb_async_task_interrupt_handler async_task_interrupt_handler;
-
 @implementation ViewController
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        
-        
-        NSLog(@"viewDidLoad --- begin");
-            
-        
-//            wb_async_task task = ^(id obj, wb_async_task_callback callback) {
-//                
-//                
-//                dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-//                
-//                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)), queue, ^{
-//                    NSLog(@"dispatch_after  ----");
-//                     
-//                    callback(obj);
-//                });
-//            };
-            
-//            wb_async_2_sync(task, ^(id obj) {
-//
-//                NSLog(@"wb_async_2_sync -----");
-//            });
-            
-            
-        
-//            wb_async_2_sync_nonblocking(task, ^(id obj) {
-//
-//                NSLog(@"wb_async_2_sync_nonblocking -----");
-//            });
-        
-        
-        
-        
-        
-        wb_async_task_callback async_task_callback = ^(id obj/*, id obj1, id obj2, id obj3*/) {
-        };
-        
-        wb_async_task_interruptable interruptable_async_task = ^(id obj, wb_async_task_interrupt_handler interrupt_handler, wb_async_task_callback callback) {
-            
-            // 保存interrupt_handler以便外部能够打断task
-            async_task_interrupt_handler = [interrupt_handler copy];
-            
-            // 执行异步动作
-            dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-            
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(20 * NSEC_PER_SEC)), queue, ^{
-                NSLog(@"dispatch_after  ----");
-                 
-                callback(obj);
-            });
-            
-            // 注意callback的第一个参数必须有
-//            callback(obj/*, obj1, obj2, obj3*/);
-        };
-        
-        wb_async_2_sync_nonblocking_interruptable(interruptable_async_task, async_task_callback);
-        
-        NSLog(@"viewDidLoad --- end");
-        
-    });
-    
-
-    NSLog(@"viewDidLoad --- 111111");
-    
-    
-//    __block NSArray * dbAdConfigList = nil;
-//    fd_async_task task = ^(id obj, fd_async_task_callback callback) {
-//        callback(obj);
-//    };
-//    fd_async_to_sync_nonblocking(task, ^(id obj) {});
 }
-
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    NSLog(@"%s", __func__);
-    
-    async_task_interrupt_handler();
-}
-
-
 
 - (IBAction)crashClickException:(id)sender {
     
